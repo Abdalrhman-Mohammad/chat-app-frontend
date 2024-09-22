@@ -2,7 +2,9 @@ import {createContext, useContext, useState} from 'react';
 import {Alert} from 'react-native';
 import {User} from '../types/User';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+//https://testback-nnf8.onrender.com
+//http://localhost:4000
+const BaseURL = 'https://testback-nnf8.onrender.com';
 export const userInfoContext = createContext<any>(null);
 
 export default function UserInfoState({children}: any) {
@@ -49,7 +51,7 @@ export default function UserInfoState({children}: any) {
       Alert.alert('Not Valid', 'Not valid username!');
       return statusAndChatIDs;
     }
-    await fetch('http://localhost:4000/user', {
+    await fetch(BaseURL + '/user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -87,7 +89,7 @@ export default function UserInfoState({children}: any) {
 
     let status: boolean = false;
 
-    await fetch('http://127.0.0.1:4000/user/register', {
+    await fetch(BaseURL + '/user/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
