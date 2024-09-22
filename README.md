@@ -1,3 +1,18 @@
+# Chat App Frontend
+This repository contains the frontend of a chat application built using React Native with TypeScript. The app supports real-time messaging using WebSockets, offering a smooth and responsive chatting experience.
+
+## Features
+### Real-time Messaging: Users can send and receive messages instantly through WebSocket integration.
+### Typing Indicator: Other users can see when someone is typing in the current chat.
+### User-friendly Interface: Simple and intuitive design for seamless user interaction.
+### Cross-platform Compatibility: Built with React Native, the app runs on both Android and iOS platforms.
+### TypeScript Support: Strongly typed code ensures better maintainability and fewer bugs.
+## Tech Stack
+### Frontend: React Native
+### Language: TypeScript
+### Real-time Communication: WebSockets
+### Package Management: Npm
+
 # Chat app screens:
 
 ## Home screen :
