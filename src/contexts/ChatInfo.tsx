@@ -1,13 +1,14 @@
 import {createContext, useState} from 'react';
 import {Chat} from '../types/Chat';
 import {User} from '../types/User';
+const BaseURL = 'http://localhost:4000';
 
 export const chatInfoContext = createContext<any>(null);
 export default function ChatInfoState({children}: any) {
   const [chatsInfo, setChatsInfo] = useState<Chat[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   async function addChatMethod(title: string, userInfo: User) {
-    return await fetch('http://127.0.0.1:4000/chat/add', {
+    return await fetch(BaseURL + '/chat/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

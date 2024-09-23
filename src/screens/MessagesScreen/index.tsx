@@ -36,14 +36,18 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
   );
 
   socket.on('newMessage', data => {
-    console.log('---------', data);
+    // console.log('---------', data);
     MessagesContext.setMessagesInfo(data);
-    console.log(' data from new message ', data);
+    // console.log(' data from new message ', data);
   });
-  socket.on('typing', isTyping => {
-    setIsTyping(isTyping);
-    console.log('isTyping : ----', isTyping);
+  console.log('---111---');
+  socket.on('typing', data => {
+    if (data.title === title) {
+      setIsTyping(data.isNowTyping);
+      console.log('isTyping : ----', data.isNowTyping);
+    }
   });
+  console.log('---222---');
   useEffect(() => {
     const keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
@@ -68,16 +72,16 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
     console.log('entered here ?!');
     socket.emit('findChat', title);
     socket.on('allMessage', data => {
-      console.log('---------', data);
+      console.log('----------------------');
       MessagesContext.setMessagesInfo(data);
-      console.log(data);
+      // console.log(data);
     });
     navigation.addListener('beforeRemove', e => {
       socket.emit('typing', {title: title, isTyping: false});
     });
   }, [socket, navigation]);
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'} }>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <KeyboardAvoidingViewComponent>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <View style={[styles.mainContainer]}>
@@ -115,9 +119,9 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
                   onChangeText={text => {
                     setMessage(text);
                     console.log(text, text.length, isTyping);
-                    if (text.length > 0 && !isTyping) {
+                    if (text.length > 0) {
                       socket.emit('typing', {title: title, isTyping: true});
-                    } else if (text.length == 0 && isTyping) {
+                    } else if (text.length == 0) {
                       socket.emit('typing', {title: title, isTyping: false});
                     }
                   }}
