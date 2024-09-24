@@ -5,7 +5,6 @@ import {
   Text,
   TextInput,
   View,
-  Keyboard,
   ScrollView,
   SafeAreaView,
 } from 'react-native';
@@ -28,57 +27,33 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
   const {title} = route.params;
   const userContext = useContext(userInfoContext);
   const MessagesContext = useContext(MessagesInfoContext);
-  const [keyboardshown, setkeyboardshown] = useState<boolean>(false);
-  console.log(
-    'messagesInfo : ',
-    userContext.userInfo.name,
-    MessagesContext.messagesInfo,
-  );
 
-  socket.on('newMessage', data => {
-    // console.log('---------', data);
-    MessagesContext.setMessagesInfo(data);
-    // console.log(' data from new message ', data);
-  });
-  console.log('---111---');
   socket.on('typing', data => {
     if (data.title === title) {
       setIsTyping(data.isNowTyping);
-      console.log('isTyping : ----', data.isNowTyping);
     }
   });
-  console.log('---222---');
-  useEffect(() => {
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setkeyboardshown(false);
-      },
-    );
 
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      () => {
-        setkeyboardshown(true);
-      },
-    );
+  const handleMessage = (data: any) => {
+    if (data.title === title) {
+          MessagesContext.setMessagesInfo(data.messages);
+    }
+  };
 
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
   useEffect(() => {
-    console.log('entered here ?!');
+    socket.once('newMessage', handleMessage);
     socket.emit('findChat', title);
-    socket.on('allMessage', data => {
-      console.log('----------------------');
+    socket.once('allMessage', data => {
       MessagesContext.setMessagesInfo(data);
-      // console.log(data);
     });
+
     navigation.addListener('beforeRemove', e => {
       socket.emit('typing', {title: title, isTyping: false});
     });
+    return () => {
+      socket.emit('typing', {title: title, isTyping: false});
+      socket.off('newMessage', handleMessage); // Removes the listener
+    };
   }, [socket, navigation]);
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -131,14 +106,7 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
                   style={[styles.icon, styles.filesIcon]}
                 />
               </View>
-              {/* <Image
-                source={require('../../assets/icons/camera01.png')}
-                style={styles.icon}
-              />
-              <Image
-                source={require('../../assets/icons/microphone.png')}
-                style={styles.icon}
-              /> */}
+             
               <View style={styles.sendButtonContainer}>
                 <Pressable
                   onPress={() => {
