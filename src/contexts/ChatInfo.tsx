@@ -40,6 +40,23 @@ export default function ChatInfoState({children}: any) {
     //add to server
     //...
   }
+  function updateStoredUserInfoWhenMessageReceived(
+    newChats: Chat[],
+    userName: string,
+  ) {
+    setChatsInfo(newChats);
+    storeUserData({name: userName, chats: newChats});
+    fetch(BaseURL + '/user/update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({name: userName, chats: newChats}),
+    })
+      .then(response => response.json())
+      .then(data => console.log('data', data))
+      .catch(error => console.log('error', error.message));
+  }
   return (
     <chatInfoContext.Provider
       value={{
@@ -48,6 +65,7 @@ export default function ChatInfoState({children}: any) {
         modalVisible,
         setModalVisible,
         addChatMethod,
+        updateStoredUserInfoWhenMessageReceived,
       }}>
       {children}
     </chatInfoContext.Provider>
