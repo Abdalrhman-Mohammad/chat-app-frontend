@@ -40,7 +40,7 @@ export default function ChatInfoState({children}: any) {
     //add to server
     //...
   }
-  function updateStoredUserInfoWhenMessageReceived(
+  function updateStoredUserInfoWhenMessageStateChanged(
     newChats: Chat[],
     userName: string,
   ) {
@@ -65,7 +65,7 @@ export default function ChatInfoState({children}: any) {
         modalVisible,
         setModalVisible,
         addChatMethod,
-        updateStoredUserInfoWhenMessageReceived,
+        updateStoredUserInfoWhenMessageStateChanged,
       }}>
       {children}
     </chatInfoContext.Provider>
