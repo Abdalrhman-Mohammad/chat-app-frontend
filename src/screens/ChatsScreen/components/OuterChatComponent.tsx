@@ -3,19 +3,29 @@ import React from 'react';
 const {width, height} = Dimensions.get('window');
 type chatsProps = {
   title: string;
+  messageRecevied: boolean;
 };
-export default function OuterChatComponent({title}: chatsProps) {
+export default function OuterChatComponent({
+  title,
+  messageRecevied,
+}: chatsProps) {
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        <Image
-          source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/480px-Google_%22G%22_logo.svg.png',
-          }}
-          style={styles.imageStyle}
-        />
+        <View style={styles.imageContainer}>
+          <Image
+            source={{
+              uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/480px-Google_%22G%22_logo.svg.png',
+            }}
+            style={styles.imageStyle}
+          />
+        </View>
         <View style={styles.titleContainer}>
           <Text style={styles.titleTxt}>{title}</Text>
+        </View>
+        <View style={styles.pointContainer}>
+          <View
+            style={messageRecevied ? styles.receivedMessagePoint : {}}></View>
         </View>
       </View>
       <View style={styles.line}></View>
@@ -36,6 +46,7 @@ const styles = StyleSheet.create({
     // paddingLeft: 20,
     alignItems: 'center',
   },
+  imageContainer: {flex: 2},
   imageStyle: {
     height: 50,
     width: 50,
@@ -45,6 +56,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingTop: 25,
     height: '100%',
+    flex: 7,
+    alignItems: 'flex-start',
   },
   titleTxt: {
     fontSize: 18,
@@ -60,5 +73,14 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 16,
     borderBottomStartRadius: 16,
     borderBottomEndRadius: 16,
+  },
+  pointContainer: {
+    flex: 1,
+  },
+  receivedMessagePoint: {
+    height: 20,
+    width: 20,
+    borderRadius: 20,
+    backgroundColor: '#55DDFF',
   },
 });

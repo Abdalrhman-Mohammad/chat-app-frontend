@@ -27,14 +27,9 @@ export function HomeScreen({navigation}: HomeProps) {
           '-----------------------------------------------------',
         );
         if (user != null && user.name != null && user.name.length != 0) {
-          const {status, chatsID} = await userContext.login(user);
+          const {status, chats} = await userContext.login(user);
           if (status) {
-            console.log('chatsID', chatsID);
-            let handleChatsID: any = [];
-            chatsID.forEach((chat: string) => {
-              handleChatsID.push({title: chat});
-            });
-            chatsContext.setChatsInfo(handleChatsID);
+            chatsContext.setChatsInfo(chats);
             navigateToChats();
           }
         }

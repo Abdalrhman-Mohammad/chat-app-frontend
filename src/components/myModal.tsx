@@ -18,7 +18,11 @@ const App = () => {
   const [chatTitle, setChatTitle] = useState<string>('');
   const addChat = async () => {
     const x = await addChatMethod(chatTitle, userContext.userInfo);
-    userContext.userInfo.chatsID.push(chatTitle);
+    // userContext.userInfo.chatsID.push(chatTitle);
+    userContext.setUserInfo({
+      name: userContext.userInfo.name,
+      chats: [...userContext.userInfo.chats, {title: chatTitle, messageRecevied: false}],
+    });
     console.log(x, chatTitle, '-----------------', chatsContext.chatsInfo);
     setModalVisible(!modalVisible);
   };

@@ -19,13 +19,16 @@ import styles from './styles';
 import MessageView from './components/MessageView';
 import KeyboardAvoidingViewComponent from '../../components/KeyboardAvoidingViewComponent';
 import AppBar from './components/AppBar';
+import {chatInfoContext} from '../../contexts/ChatInfo';
+import {Chat} from '../../types/Chat';
 type MessagesProps = NativeStackScreenProps<RootStackParamList, 'Messages'>;
 
 export default function MessageScreen({navigation, route}: MessagesProps) {
   const [message, setMessage] = useState<string>('');
   const [isTyping, setIsTyping] = useState(false);
-  const {title} = route.params;
+  const {title, rerenderFlatList} = route.params;
   const userContext = useContext(userInfoContext);
+  const chatContext = useContext(chatInfoContext);
   const MessagesContext = useContext(MessagesInfoContext);
 
   socket.on('typing', data => {
@@ -35,13 +38,14 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
   });
 
   const handleMessage = (data: any) => {
+    console.log('data', data);
     if (data.title === title) {
-          MessagesContext.setMessagesInfo(data.messages);
+      MessagesContext.setMessagesInfo(data.messages);
     }
   };
 
   useEffect(() => {
-    socket.once('newMessage', handleMessage);
+    socket.on('newMessage', handleMessage);
     socket.emit('findChat', title);
     socket.once('allMessage', data => {
       MessagesContext.setMessagesInfo(data);
@@ -106,11 +110,12 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
                   style={[styles.icon, styles.filesIcon]}
                 />
               </View>
-             
+
               <View style={styles.sendButtonContainer}>
                 <Pressable
                   onPress={() => {
                     if (message.length == 0) return;
+                    ////////////////////////////////////
                     setMessage(
                       MessagesContext.addMessage(
                         title,
@@ -118,7 +123,29 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
                         userContext.userInfo.name,
                       ),
                     );
+                    ////////////////////////////////////
                     socket.emit('typing', {title: title, isTyping: false});
+                    ////////////////////////////////////
+                    let id = -1;
+                    const chats: Chat[] = chatContext.chatsInfo;
+                    const foundChat: Chat[] = chats.filter(
+                      (chat: any, index: number) => {
+                        console.log('chat : ', chat.title, 'data : ', title);
+                        if (chat.title === title) id = index;
+                        return chat.title === title;
+                      },
+                    );
+                    const tmp = {
+                      title: foundChat[0].title,
+                      messageRecevied: foundChat[0].messageRecevied,
+                    };
+                    chats.splice(id, 1);
+                    chats.unshift(tmp);
+                    chatContext.updateStoredUserInfoWhenMessageReceived(
+                      chats,
+                      userContext.userInfo.name,
+                    );
+                    rerenderFlatList();
                   }}>
                   <View style={styles.sendButton}>
                     <Image

@@ -10,16 +10,12 @@ export default function RegistrationOptions({
   navigateToChats,
 }: RegistrationOptionsProps) {
   const userContext = useContext(userInfoContext);
-  const [userInfo, setUserInfo] = useState<User>({name: '', chatsID: []});
+  const [userInfo, setUserInfo] = useState<User>({name: '', chats: []});
   const chatsContext = useContext(chatInfoContext);
   const login = async () => {
-    const {status, chatsID} = await userContext.login(userInfo);
+    const {status, chats} = await userContext.login(userInfo);
     if (status) {
-      let handleChatsID: any = [];
-      chatsID.forEach((chat: string) => {
-        handleChatsID.push({title: chat});
-      });
-      chatsContext.setChatsInfo(handleChatsID);
+      chatsContext.setChatsInfo(chats);
       navigateToChats();
     }
   };
@@ -36,8 +32,8 @@ export default function RegistrationOptions({
       <TextInput
         style={styles.inputText}
         onChangeText={value => {
-          setUserInfo({name: value, chatsID: []});
-          userContext.setUserInfo({name: value, chatsID: []});
+          setUserInfo({name: value, chats: []});
+          userContext.setUserInfo({name: value, chats: []});
         }}
         placeholder="Enter your name"
       />

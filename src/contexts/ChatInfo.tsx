@@ -1,12 +1,23 @@
 import {createContext, useState} from 'react';
 import {Chat} from '../types/Chat';
 import {User} from '../types/User';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const BaseURL = 'http://localhost:4000';
 
 export const chatInfoContext = createContext<any>(null);
 export default function ChatInfoState({children}: any) {
   const [chatsInfo, setChatsInfo] = useState<Chat[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const storeUserData = async (value: User) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('userInfo', jsonValue);
+    } catch (e) {
+      // saving error
+      console.log('error', e, 'eee');
+      return null;
+    }
+  };
   async function addChatMethod(title: string, userInfo: User) {
     return await fetch(BaseURL + '/chat/add', {
       method: 'POST',
@@ -17,7 +28,7 @@ export default function ChatInfoState({children}: any) {
     })
       .then(response => response.json())
       .then(data => {
-        setChatsInfo([...chatsInfo, {title: title}]);
+        setChatsInfo([...chatsInfo, {title: title, messageRecevied: false}]);
         console.log('data', data);
         return data;
       })
