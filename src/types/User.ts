@@ -5,3 +5,8 @@ export interface User {
   name: string;
   chatsID: string[];
 }
+
+export type statusAndChatsType = {
+  status: boolean;
+  chats: Chat[];
+};
