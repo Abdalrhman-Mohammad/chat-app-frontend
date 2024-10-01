@@ -15,44 +15,7 @@ export type RootStackParamList = {
   Messages: {title: string; rerenderFlatList: () => void};
 };
 
-async function requestNotificationPermission() {
-  if (Platform.OS === 'android') {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-      );
-
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Notification permission granted');
-      } else {
-        console.log('Notification permission denied');
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  }
-}
-async function requestUserPermission() {
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  if (enabled) {
-    console.log('Authorization status:', authStatus);
-  }
-}
 function App(): React.JSX.Element {
-  messaging().setBackgroundMessageHandler(async remoteMessage => {
-    console.log('Message handled in the background!', remoteMessage);
-  });
-  useEffect(() => {
-    const unsubscribe = messaging().onTokenRefresh(token => {
-      console.log('New FCM Token:', token);
-    });
-
-    return unsubscribe;
-  }, []);
   const Stack = createNativeStackNavigator<RootStackParamList>();
   return (
     <UserInfoState>

@@ -32,7 +32,9 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
   const MessagesContext = useContext(MessagesInfoContext);
 
   socket.on('typing', data => {
+    console.log('data', data);
     if (data.title === title) {
+    console.log('data in ', data);
       setIsTyping(data.isNowTyping);
     }
   });
@@ -141,7 +143,7 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
                     };
                     chats.splice(id, 1);
                     chats.unshift(tmp);
-                    chatContext.updateStoredUserInfoWhenMessageReceived(
+                    chatContext.updateStoredUserInfoWhenMessageStateChanged(
                       chats,
                       userContext.userInfo.name,
                     );
