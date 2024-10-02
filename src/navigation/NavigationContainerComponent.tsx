@@ -12,7 +12,7 @@ import MessageScreen from '../screens/MessagesScreen';
 export type RootStackParamList = {
   Home: undefined;
   Chats: undefined;
-  Messages: {title: string; rerenderFlatList: () => void};
+  Messages: {title: string; updateFlatList: () => void};
 };
 const NavigationContainerComponent = () => {
   requestUserPermission();

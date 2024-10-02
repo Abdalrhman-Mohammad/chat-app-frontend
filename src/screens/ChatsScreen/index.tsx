@@ -26,12 +26,10 @@ const ChatScreen = ({navigation}: ChatsProps) => {
   };
 
   function rerenderFlatList() {
-    if (selectedID == '0') setSelectedID('1');
-    else setSelectedID('0');
+    setSelectedID(`${Math.random() * 1000}`);
   }
-  function changeState(title: string, newValue: boolean) {
+  function changeState(title: string, newValue: boolean, chats: Chat[]) {
     let id = -1;
-    const chats: Chat[] = chatsInfo;
     const foundChat = chats.filter((chat: any, index: number) => {
       if (chat.title === title) id = index;
       return chat.title === title;
@@ -52,10 +50,6 @@ const ChatScreen = ({navigation}: ChatsProps) => {
     );
     rerenderFlatList();
   }
-  socket.on('newMessage', data => {
-    console.log('data------------------------------------------', data);
-    changeState(data.title, true);
-  });
 
   async function handlenotification(message: any) {
     const userName = userContext.userInfo.name;
@@ -75,12 +69,20 @@ const ChatScreen = ({navigation}: ChatsProps) => {
       });
   }
   useEffect(() => {
-   
+    console.log('useEffect');
+    function handleNewMessage(data: any) {
+      console.log('handleNewMessage', chatsContext.chatsInfo);
+      changeState(data.title, true, chatsContext.chatsInfo);
+    }
+    // socket.off('newMessage');
+    setTimeout(() => {
+      socket.on('newMessage', handleNewMessage);
+    }, 100);
     messeing().onMessage(handlenotification);
     return () => {
       socket.off('newMessage'); // Removes the listener
     };
-  }, []);
+  }, [chatsContext.chatsInfo]);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
@@ -99,18 +101,20 @@ const ChatScreen = ({navigation}: ChatsProps) => {
       </View>
       <View style={styles.list}>
         <FlatList
-          data={chatsInfo}
+          data={chatsContext.chatsInfo}
           extraData={selectedID}
           renderItem={({item}) => {
             return (
               <Pressable
                 onPress={() => {
                   if (item.messageRecevied) {
-                    changeState(item.title, false);
+                    changeState(item.title, false, chatsContext.chatsInfo);
                   }
                   navigation.push('Messages', {
                     title: item.title,
-                    rerenderFlatList: rerenderFlatList,
+                    updateFlatList: () => {
+                      changeState(item.title, false, chatsContext.chatsInfo);
+                    },
                   });
                 }}>
                 <OuterChatComponent
@@ -127,7 +131,9 @@ const ChatScreen = ({navigation}: ChatsProps) => {
       </View>
       <View style={styles.buttonContainer}>
         <MainButton
-          onPress={() => setModalVisible(!modalVisible)}
+          onPress={() =>
+            chatsContext.setModalVisible(!chatsContext.modalVisible)
+          }
           title={'New Chat'}
         />
       </View>

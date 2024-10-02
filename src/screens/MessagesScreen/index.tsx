@@ -26,7 +26,7 @@ type MessagesProps = NativeStackScreenProps<RootStackParamList, 'Messages'>;
 export default function MessageScreen({navigation, route}: MessagesProps) {
   const [message, setMessage] = useState<string>('');
   const [isTyping, setIsTyping] = useState(false);
-  const {title, rerenderFlatList} = route.params;
+  const {title, updateFlatList} = route.params;
   const userContext = useContext(userInfoContext);
   const chatContext = useContext(chatInfoContext);
   const MessagesContext = useContext(MessagesInfoContext);
@@ -59,7 +59,7 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
     return () => {
       socket.emit('typing', {title: title, isTyping: false});
       socket.off('newMessage', handleMessage); // Removes the listener
-      rerenderFlatList();
+      updateFlatList();
     };
   }, [socket, navigation]);
   return (

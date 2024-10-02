@@ -67,12 +67,19 @@ export default function UserInfoState({children}: any) {
       .then(data => {
         let found: string = `${data.status}`;
         if (found == 'true') {
-          const user: User = data.user;
+          const user: User = {
+            name: data.user.name,
+            chats: data.user.chats,
+            notificationToken: '',
+          };
+          console.log('user from fetch', user);
           statusAndChats = {
             status: true,
             chats: user.chats,
           };
           setUserInfo(user);
+          if (statusAndChats.status && userData.name != '')
+            storeUserData(user);
         } else if (found == 'false') {
           Alert.alert(
             'Register First!',
@@ -83,7 +90,7 @@ export default function UserInfoState({children}: any) {
       .catch(error => {
         Alert.alert('Error happened', 'Please try again');
       });
-    if (statusAndChats.status) storeUserData(userData);
+    if (statusAndChats.status && userData.name != '') storeUserData(userData);
     await messeing()
       .getToken()
       .then(token => {
@@ -121,12 +128,12 @@ export default function UserInfoState({children}: any) {
           status = true;
           const user: User = data.user;
           setUserInfo(user);
+          storeUserData(user);
         }
       })
       .catch(error => {
         Alert.alert('Error happened', 'Please try again');
       });
-    if (status) storeUserData(userInfo);
     await messeing()
       .getToken()
       .then(token => {
