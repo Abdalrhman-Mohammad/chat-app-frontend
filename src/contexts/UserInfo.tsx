@@ -1,13 +1,18 @@
 import {createContext, useContext, useState} from 'react';
 import {Alert} from 'react-native';
-import {User , statusAndChatsType} from '../types/User';
+import {User, statusAndChatsType} from '../types/User';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Chat} from '../types/Chat';
 const BaseURL = 'http://localhost:4000';
 export const userInfoContext = createContext<any>(null);
+import messeing from '@react-native-firebase/messaging';
 
 export default function UserInfoState({children}: any) {
-  const [userInfo, setUserInfo] = useState<User>({name: '', chats: []});
+  const [userInfo, setUserInfo] = useState<User>({
+    name: '',
+    chats: [],
+    notificationToken: '',
+  });
   function userDataValidation(userData: User) {
     /* 
     Usernames can only have: 
@@ -45,7 +50,6 @@ export default function UserInfoState({children}: any) {
   const login = async (userData: User) => {
     // console.log('userData', userData, 'uuuuuuuuuu');
     const valid = userDataValidation(userData);
-    
 
     let statusAndChats: statusAndChatsType = {status: false, chats: []};
     if (!valid) {
@@ -80,7 +84,16 @@ export default function UserInfoState({children}: any) {
         Alert.alert('Error happened', 'Please try again');
       });
     if (statusAndChats.status) storeUserData(userData);
-
+    await messeing()
+      .getToken()
+      .then(token => {
+        console.log('token', token);
+        setUserInfo({
+          name: userInfo.name,
+          chats: userInfo.chats,
+          notificationToken: token,
+        });
+      });
     return statusAndChats;
   };
 
@@ -114,10 +127,20 @@ export default function UserInfoState({children}: any) {
         Alert.alert('Error happened', 'Please try again');
       });
     if (status) storeUserData(userInfo);
+    await messeing()
+      .getToken()
+      .then(token => {
+        console.log('token', token);
+        setUserInfo({
+          name: userInfo.name,
+          chats: userInfo.chats,
+          notificationToken: token,
+        });
+      });
     return status;
   };
   const logout = async () => {
-    setUserInfo({name: '', chats: []});
+    setUserInfo({name: '', chats: [], notificationToken: ''});
     await AsyncStorage.removeItem('userInfo');
   };
   return (

@@ -147,6 +147,7 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
                     chatContext.updateStoredUserInfoWhenMessageStateChanged(
                       chats,
                       userContext.userInfo.name,
+                      userContext.userInfo.notificationToken,
                     );
                   }}>
                   <View style={styles.sendButton}>
