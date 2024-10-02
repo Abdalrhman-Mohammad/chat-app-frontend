@@ -1,7 +1,7 @@
 import {FlatList, Image, Pressable, Text, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../App';
+import {RootStackParamList} from '../../navigation/NavigationContainerComponent';
 import styles from './styles';
 import OuterChatComponent from './components/OuterChatComponent';
 import {chatInfoContext} from '../../contexts/ChatInfo';
@@ -21,7 +21,7 @@ const ChatScreen = ({navigation}: ChatsProps) => {
     userContext.logout();
     chatsContext.setChatsInfo([]);
     navigation.replace('Home');
-  }; 
+  };
   function rerenderFlatList() {
     if (selectedID == '0') setSelectedID('1');
     else setSelectedID('0');
@@ -59,8 +59,8 @@ const ChatScreen = ({navigation}: ChatsProps) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
-        <Pressable onPress={logout} style={styles.titleContainer}>
-          <Text style={styles.titleTxt}>Oute</Text>
+        <Pressable onPress={logout} style={styles.logoutContainer}>
+          <Text style={styles.titleTxt}>Logout</Text>
         </Pressable>
         <View style={styles.titleContainer}>
           <Text style={styles.titleTxt}>Home</Text>

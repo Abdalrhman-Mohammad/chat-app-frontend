@@ -14,9 +14,9 @@ export default function OuterChatComponent({
       <View style={styles.container}>
         <View style={styles.imageContainer}>
           <Image
-            source={{
-              uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/480px-Google_%22G%22_logo.svg.png',
-            }}
+            source={
+            require('../../../assets/images/chatAppIcon.jpeg')
+            }
             style={styles.imageStyle}
           />
         </View>

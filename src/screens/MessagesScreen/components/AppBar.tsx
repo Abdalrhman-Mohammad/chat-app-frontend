@@ -23,7 +23,7 @@ export default function AppBar({backNavigation, title}: any) {
       <View style={styles.imageContainer}>
         <View style={styles.point}></View>
         <Image
-          source={require('../../../assets/images/myPhoto.jpg')}
+          source={require('../../../assets/images/chatAppIcon.jpeg')}
           style={styles.image}
         />
       </View>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   point: {
     position: 'absolute',
-    right: height / 70,
+    right: height / 100,
     bottom: 1,
     zIndex: 1,
     height: 8,

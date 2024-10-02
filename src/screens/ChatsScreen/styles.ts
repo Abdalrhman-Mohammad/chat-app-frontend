@@ -6,7 +6,7 @@ export default StyleSheet.create({
     height: height,
   },
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -14,15 +14,24 @@ export default StyleSheet.create({
     flex: 1.5,
     backgroundColor: '#20A090',
   },
-  imageContainer: {},
+  imageContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
   image: {
     zIndex: 0,
     height: 44,
     width: 44,
     borderRadius: 50,
   },
+  logoutContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
   titleContainer: {
     paddingVertical: 10,
+    flex: 1,
+    alignItems: 'center',
     backgroundColor: '#20A090',
   },
   titleTxt: {
@@ -45,4 +54,3 @@ export default StyleSheet.create({
     flex: 2,
   },
 });
-

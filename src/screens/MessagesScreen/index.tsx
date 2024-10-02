@@ -11,7 +11,7 @@ import {
 
 import React, {useContext, useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../App';
+import {RootStackParamList} from '../../navigation/NavigationContainerComponent';
 import {socket} from '../../utils';
 import {userInfoContext} from '../../contexts/UserInfo';
 import {MessagesInfoContext} from '../../contexts/MessagesInfo';
@@ -34,7 +34,7 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
   socket.on('typing', data => {
     console.log('data', data);
     if (data.title === title) {
-    console.log('data in ', data);
+      console.log('data in ', data);
       setIsTyping(data.isNowTyping);
     }
   });
@@ -59,6 +59,7 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
     return () => {
       socket.emit('typing', {title: title, isTyping: false});
       socket.off('newMessage', handleMessage); // Removes the listener
+      rerenderFlatList();
     };
   }, [socket, navigation]);
   return (
@@ -147,7 +148,6 @@ export default function MessageScreen({navigation, route}: MessagesProps) {
                       chats,
                       userContext.userInfo.name,
                     );
-                    rerenderFlatList();
                   }}>
                   <View style={styles.sendButton}>
                     <Image
