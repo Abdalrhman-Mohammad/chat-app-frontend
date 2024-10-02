@@ -43,9 +43,10 @@ export default function ChatInfoState({children}: any) {
   function updateStoredUserInfoWhenMessageStateChanged(
     newChats: Chat[],
     userName: string,
+    notificationToken:string,
   ) {
     setChatsInfo(newChats);
-    storeUserData({name: userName, chats: newChats});
+    storeUserData({name: userName, chats: newChats, notificationToken:notificationToken});
     fetch(BaseURL + '/user/update', {
       method: 'POST',
       headers: {

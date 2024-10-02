@@ -3,7 +3,7 @@ import {Text, View, ScrollView} from 'react-native';
 
 import styles from './styles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../App';
+import {RootStackParamList} from '../../navigation/NavigationContainerComponent';
 import WelcomeOptions from './components/Welcome';
 import RegistrationOptions from './components/RegistrationOptions';
 import KeyboardAvoidingViewComponent from '../../components/KeyboardAvoidingViewComponent';

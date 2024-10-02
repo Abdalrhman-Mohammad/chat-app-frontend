@@ -9,7 +9,9 @@ import MainButton from '../../components/MainButton';
 import MyModal from '../../components/myModal';
 import {userInfoContext} from '../../contexts/UserInfo';
 import {socket} from '../../utils';
+import messeing from '@react-native-firebase/messaging';
 import {Chat} from '../../types/Chat';
+import PushNotification from 'react-native-push-notification';
 type ChatsProps = NativeStackScreenProps<RootStackParamList, 'Chats'>;
 
 const ChatScreen = ({navigation}: ChatsProps) => {
@@ -22,6 +24,7 @@ const ChatScreen = ({navigation}: ChatsProps) => {
     chatsContext.setChatsInfo([]);
     navigation.replace('Home');
   };
+
   function rerenderFlatList() {
     if (selectedID == '0') setSelectedID('1');
     else setSelectedID('0');
@@ -45,13 +48,35 @@ const ChatScreen = ({navigation}: ChatsProps) => {
     chatsContext.updateStoredUserInfoWhenMessageStateChanged(
       chats,
       userContext.userInfo.name,
+      userContext.userInfo.notificationToken,
     );
     rerenderFlatList();
   }
   socket.on('newMessage', data => {
+    console.log('data------------------------------------------', data);
     changeState(data.title, true);
   });
+
+  async function handlenotification(message: any) {
+    const userName = userContext.userInfo.name;
+    console.log(
+      'handlenotification',
+      message,
+      '-----------',
+      userName,
+      '--------',
+      message!.data!.fromUser,
+    );
+    if (userName != '' && userName != message!.data!.fromUser)
+      PushNotification.localNotification({
+        title: message.notification?.title,
+        message: message.notification?.body!,
+        channelId: '1',
+      });
+  }
   useEffect(() => {
+   
+    messeing().onMessage(handlenotification);
     return () => {
       socket.off('newMessage'); // Removes the listener
     };
