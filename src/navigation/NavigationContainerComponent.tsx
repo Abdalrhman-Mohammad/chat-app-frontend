@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   requestNotificationPermission,
@@ -36,6 +36,17 @@ const NavigationContainerComponent = () => {
     console.log('foreground notification', message);
     handlenotification(message, UserContext.userInfo.name);
   });
+  useEffect(() => {
+    messeing()
+      .getToken()
+      .then(token => {
+        UserContext.setUserInfo({
+          name: UserContext.userInfo.name,
+          chats: UserContext.userInfo.chats,
+          notificationToken: token,
+        });
+      });
+  }, []);
   const Stack = createNativeStackNavigator<RootStackParamList>();
   return (
     <NavigationContainer>
