@@ -17,11 +17,16 @@ const App = () => {
   const {modalVisible, setModalVisible, addChatMethod} = chatsContext;
   const [chatTitle, setChatTitle] = useState<string>('');
   const addChat = async () => {
+    console.log('IMPOOOOOOOOOOOOOO', userContext.userInfo);
     const x = await addChatMethod(chatTitle, userContext.userInfo);
     // userContext.userInfo.chatsID.push(chatTitle);
     userContext.setUserInfo({
       name: userContext.userInfo.name,
-      chats: [...userContext.userInfo.chats, {title: chatTitle, messageRecevied: false}],
+      chats: [
+        ...userContext.userInfo.chats,
+        {title: chatTitle, messageRecevied: false},
+      ],
+      notificationToken: userContext.userInfo.notificationToken,
     });
     console.log(x, chatTitle, '-----------------', chatsContext.chatsInfo);
     setModalVisible(!modalVisible);
