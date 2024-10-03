@@ -30,26 +30,32 @@ This repository contains the frontend of a chat application built using React Na
 <img src="https://github.com/user-attachments/assets/b744a528-ce43-4bdb-b7e5-27e83f8422d7" alt="Register Screen" width="300"/>
 
 ## Chats screen:
-<img src="https://github.com/user-attachments/assets/102b9556-53ed-4c13-98ff-fd233988225a" alt="Chats Screen" width="300"/>
+<img src="https://github.com/user-attachments/assets/17d9afd8-cd60-4b4b-b347-1c259896b07b" alt="Chats Screen" width="300"/>
 
 ## Add chat screen:
-<img src="https://github.com/user-attachments/assets/b57c4716-e9d1-40f0-b981-68aa9723711a" alt="Add Chat Screen" width="300"/>
+<img src="https://github.com/user-attachments/assets/a8893fa9-8f41-4bd4-8df6-1e79676ea6f2" alt="Add Chat Screen" width="300"/>
 
 ## Chats screen after adding:
-<img src="https://github.com/user-attachments/assets/aee8d9b4-b342-4645-871d-fce59b3ee751" alt="Chats Screen After Adding" width="300"/>
+<img src="https://github.com/user-attachments/assets/be51f0b9-da27-4715-8076-e0f8bda08035" alt="Chats Screen After Adding" width="300"/>
 
-<img src="https://github.com/user-attachments/assets/bac4b927-3a37-450b-91da-257f47eae233" alt="Chats Screen After Adding" width="300"/>
+<img src="https://github.com/user-attachments/assets/d22e87f9-752c-425a-8d79-f46d79caf6fb" alt="Chats Screen After Adding" width="300"/>
 
 ## Chats screen when recive message:
-<img src="https://github.com/user-attachments/assets/fc89218e-2181-430c-b4d5-33ce57792140" alt="Chats Screen After Adding" width="300"/>
+<img src="https://github.com/user-attachments/assets/f2a674db-ed6b-47aa-8aec-ea8ec64f7f8a" alt="Chats Screen After Adding" width="300"/>
 
 ## Message screen
 <img src="https://github.com/user-attachments/assets/3ea8e1c2-8efa-42da-bb65-eba7576b9913" alt="Message Screen" width="300"/>
 
 ## Message screen after sending:
-<img src="https://github.com/user-attachments/assets/5f441720-1f80-4484-80b3-057ee0542c47" alt="Message Screen After Sending" width="300"/>
+<img src="https://github.com/user-attachments/assets/e677d396-f052-4e7c-9c21-df289fdfebc9" alt="Message Screen After Sending" width="300"/>
 
-## Message screen while someone typing:
-<img src="https://github.com/user-attachments/assets/74e01343-ddd9-4589-a90a-55aa8c50f38c" alt="Message Screen While Typing" width="300"/>
+## Message screen after receiving:
+<img src="https://github.com/user-attachments/assets/cb8d7b79-661f-4cf5-a2c1-cf2b7414747d" alt="Message Screen After Sending" width="300"/>
+
+## Message screen while the other person is typing:
+<img src="https://github.com/user-attachments/assets/60eebba3-10f3-4576-a6e7-06c11ebd06d3" alt="Message Screen While Typing" width="300"/>
+
+## Notification:
+<img src="https://github.com/user-attachments/assets/c06f91ed-44af-4c6c-8784-c914ac40b30c" alt="Message Screen While Typing" width="300"/>
 
 
