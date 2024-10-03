@@ -64,7 +64,7 @@ export default function UserInfoState({children}: any) {
       body: JSON.stringify(userData),
     })
       .then(response => response.json())
-      .then(data => {
+      .then(async data => {
         let found: string = `${data.status}`;
         if (found == 'true') {
           const user: User = {
@@ -78,8 +78,17 @@ export default function UserInfoState({children}: any) {
             chats: user.chats,
           };
           setUserInfo(user);
-          if (statusAndChats.status && userData.name != '')
-            storeUserData(user);
+          if (statusAndChats.status && userData.name != '') storeUserData(user);
+          await messeing()
+            .getToken()
+            .then(token => {
+              console.log('token', token);
+              setUserInfo({
+                name: user.name,
+                chats: user.chats,
+                notificationToken: token,
+              });
+            });
         } else if (found == 'false') {
           Alert.alert(
             'Register First!',
@@ -90,22 +99,14 @@ export default function UserInfoState({children}: any) {
       .catch(error => {
         Alert.alert('Error happened', 'Please try again');
       });
+
     if (statusAndChats.status && userData.name != '') storeUserData(userData);
-    await messeing()
-      .getToken()
-      .then(token => {
-        console.log('token', token);
-        setUserInfo({
-          name: userInfo.name,
-          chats: userInfo.chats,
-          notificationToken: token,
-        });
-      });
+
     return statusAndChats;
   };
 
-  const register = async () => {
-    const valid = userDataValidation(userInfo);
+  const register = async (userData: User) => {
+    const valid = userDataValidation(userData);
     if (!valid) {
       Alert.alert('NOt Valid', 'Not valid username!');
       return 'not valid';
@@ -118,31 +119,35 @@ export default function UserInfoState({children}: any) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userInfo),
+      body: JSON.stringify(userData),
     })
       .then(response => response.json())
-      .then(data => {
+      .then(async data => {
         if (data.found) {
           Alert.alert('You have an account!', 'Please choose login');
         } else {
           status = true;
-          const user: User = data.user;
+          const user: User = {
+            name: data.user.name,
+            chats: data.user.chats,
+            notificationToken: '',
+          };
           setUserInfo(user);
           storeUserData(user);
+          await messeing()
+            .getToken()
+            .then(token => {
+              console.log('token', token);
+              setUserInfo({
+                name: user.name,
+                chats: user.chats,
+                notificationToken: token,
+              });
+            });
         }
       })
       .catch(error => {
         Alert.alert('Error happened', 'Please try again');
-      });
-    await messeing()
-      .getToken()
-      .then(token => {
-        console.log('token', token);
-        setUserInfo({
-          name: userInfo.name,
-          chats: userInfo.chats,
-          notificationToken: token,
-        });
       });
     return status;
   };

@@ -20,7 +20,7 @@ export default function RegistrationOptions({
     }
   };
   const register = async () => {
-    const status = await userContext.register();
+    const status = await userContext.register(userInfo);
     if (status) {
       navigateToChats();
     }
@@ -33,7 +33,6 @@ export default function RegistrationOptions({
         style={styles.inputText}
         onChangeText={value => {
           setUserInfo({name: value, chats: [], notificationToken: ''});
-          userContext.setUserInfo({name: value, chats: []});
         }}
         placeholder="Enter your name"
       />
