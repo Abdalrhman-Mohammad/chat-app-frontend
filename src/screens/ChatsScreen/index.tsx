@@ -69,6 +69,11 @@ const ChatScreen = ({navigation}: ChatsProps) => {
       });
   }
   useEffect(() => {
+    console.log('useEffect--');
+    const off = messeing().onMessage(handlenotification);
+    return () => off();
+  }, []);
+  useEffect(() => {
     console.log('useEffect');
     function handleNewMessage(data: any) {
       console.log('handleNewMessage', chatsContext.chatsInfo);
@@ -78,7 +83,6 @@ const ChatScreen = ({navigation}: ChatsProps) => {
     setTimeout(() => {
       socket.on('newMessage', handleNewMessage);
     }, 100);
-    messeing().onMessage(handlenotification);
     return () => {
       socket.off('newMessage'); // Removes the listener
     };
