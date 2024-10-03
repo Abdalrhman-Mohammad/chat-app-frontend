@@ -10,12 +10,14 @@ This repository contains the frontend of a chat application built using React Na
 - **Cross-platform Compatibility**: Built with React Native, the app runs on both Android and iOS platforms.
 - **TypeScript Support**: Strongly typed code ensures better maintainability and fewer bugs.
 - **Data Persistence**: All information is saved both internally and externally for reliable data storage.
+- **Push Notifications**: Users will receive notifications for new messages, even when the app is in the background, opened or closed.
 
 ## Tech Stack
 - **Frontend**: React Native
 - **Language**: TypeScript
 - **Real-time Communication**: WebSockets
 - **Package Management**: Npm
+- **Push Notifications Service**: Firebase Cloud Messaging (FCM)
 
 # Chat app screens:
 
